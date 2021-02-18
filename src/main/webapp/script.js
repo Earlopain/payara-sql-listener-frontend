@@ -32,6 +32,11 @@ class WebsocketHandler {
 		this.toast.show();
 	}
 
+	clear() {
+		this.sendMessage('clear_listener');
+		this.ticker.innerHTML = "";
+	}
+
 	updateListenerStatus(message) {
 		switch (message) {
 			case "LISTENER_ACTIVATED":
