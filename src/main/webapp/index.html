@@ -8,13 +8,14 @@
 <title>Websockets</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-	crossorigin="anonymous">
+	rel="stylesheet">
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-	crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script type="module" src="script.js"></script>
 </head>
 
@@ -38,6 +39,11 @@
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
 				<button class="nav-link active" id="nav-ticker-tab"
 					data-bs-toggle="tab" data-bs-target="#nav-ticker" type="button">Live</button>
+				<button class="nav-link" id="nav-by-frame-tab" data-bs-toggle="tab"
+					data-bs-target="#nav-by-frame" type="button">Group by
+					Stackframe</button>
+				<button class="nav-link" id="nav-by-sql-tab" data-bs-toggle="tab"
+					data-bs-target="#nav-by-sql" type="button">Group by SQL</button>
 				<div class="px-5"></div>
 				<button id="button-listener-toggle" type="button"
 					class="btn btn-primary">Toggle Listener</button>
@@ -49,9 +55,31 @@
 					listener State</div>
 			</div>
 		</nav>
-		<div class="tab-content" id="nav-tabContent">
+		<div class="tab-content">
 			<div class="tab-pane fade show active" id="nav-ticker">
 				<div class="accordion" id="ticker"></div>
+			</div>
+			<div class="tab-pane fade" id="nav-by-frame">
+				<table id="table-by-stackframe">
+					<thead>
+						<tr>
+							<th>Count</th>
+							<th>Stackframe</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div class="tab-pane fade" id="nav-by-sql">
+				<table id="table-by-sql">
+					<thead>
+						<tr>
+							<th>Count</th>
+							<th>SQL</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 			</div>
 		</div>
 	</div>

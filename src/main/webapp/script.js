@@ -1,3 +1,4 @@
+import { QueryStore } from "./QueryStore.js";
 import { Ticker } from "./Ticker.js";
 
 class WebsocketHandler {
@@ -7,6 +8,7 @@ class WebsocketHandler {
 		this.toast = new bootstrap.Toast(document.querySelector('.toast'));
 		this.statusDiv = document.getElementById("listener-status");
 		this.ticker = new Ticker();
+		this.queryStore = new QueryStore();
 
 		document.getElementById("button-listener-toggle").addEventListener("click", () => {
 			this.sendMessage("toggle_listener");
@@ -24,8 +26,10 @@ class WebsocketHandler {
 			this.updateListenerStatus(message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.ticker.add(json.message);
+			this.queryStore.add(json.message);
 		} else if (json.type === "SQL_ENTRY_LIST") {
 			this.ticker.fillWithInitialData(json.message);
+			this.queryStore.addAll(json.message);
 		} else {
 			console.log("Unhandled type: " + json.type)
 		}
@@ -43,6 +47,7 @@ class WebsocketHandler {
 	clear() {
 		this.sendMessage('clear_listener');
 		this.ticker.clear();
+		this.queryStore.clear();
 	}
 
 	updateListenerStatus(message) {
@@ -59,7 +64,6 @@ class WebsocketHandler {
 	}
 }
 
-let handle;
 document.addEventListener("DOMContentLoaded", () => {
-	handle = new WebsocketHandler();
+	new WebsocketHandler();
 });
