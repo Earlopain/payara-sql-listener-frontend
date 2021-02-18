@@ -67,8 +67,8 @@ class WebsocketHandler {
 		const collapse = template.querySelector(".accordion-collapse");
 		collapse.id = triggerId;
 
-		const body = template.querySelector(".accordion-body");
-		body.innerText = query.sql;
+		template.querySelector(".sql-content").innerText = query.sql;
+		template.querySelector(".stacktrace-content").innerText = query.stackTrace;
 
 		this.ticker.prepend(template);
 		console.log(query);
