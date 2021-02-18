@@ -62,13 +62,15 @@ class WebsocketHandler {
 
 		const button = template.querySelector(".accordion-button");
 		button.setAttribute("data-bs-target", "#" + triggerId);
-		button.innerText = title;
+		template.querySelector(".accordion-title-pre").innerHTML = title;
+		template.querySelector(".accordion-title-stacktrace").innerText = query.stackTrace[0];
+		template.querySelector(".accordion-title-sql").innerHTML = query.sql;
 
 		const collapse = template.querySelector(".accordion-collapse");
 		collapse.id = triggerId;
 
 		template.querySelector(".sql-content").innerText = query.sql;
-		template.querySelector(".stacktrace-content").innerText = query.stackTrace;
+		template.querySelector(".stacktrace-content").innerText = query.stackTrace.join("\n");
 
 		this.ticker.prepend(template);
 		console.log(query);

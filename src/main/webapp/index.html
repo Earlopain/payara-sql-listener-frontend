@@ -61,10 +61,17 @@
 	<div class="visually-hidden">
 		<div id="accordion-template" class="accordion-item">
 			<h2 class="accordion-header">
-				<button class="accordion-button collapsed" type="button"
-					data-bs-toggle="collapse"></button>
+				<button class="accordion-button collapsed p-1 overflow-hidden"
+					style="white-space: nowrap;" type="button"
+					data-bs-toggle="collapse">
+					<div class="row container" style="display: contents;">
+						<div class="col-sm-3 overflow-hidden accordion-title-pre"></div>
+						<div class="col-sm-4 overflow-hidden accordion-title-stacktrace"></div>
+						<div class="col-sm overflow-hidden accordion-title-sql"></div>
+					</div>
+				</button>
 			</h2>
-			<div id="collapseOne" class="accordion-collapse collapsed collapse">
+			<div class="accordion-collapse collapsed collapse">
 				<div class="accordion-body row">
 					<pre class="col sql-content"></pre>
 					<pre class="col stacktrace-content"></pre>
