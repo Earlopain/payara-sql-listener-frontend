@@ -55,14 +55,14 @@ class WebsocketHandler {
 
 	addToTicker(query) {
 		const timestamp = new Date(query.timestamp).toISOString().slice(0, 19);
-		const title = `Pool: ${query.poolName} Timestamp: ${timestamp}`;
 		const triggerId = "accordion_" + this.tickerCounter++;
 
 		const template = document.getElementById("accordion-template").cloneNode(true);
 
 		const button = template.querySelector(".accordion-button");
 		button.setAttribute("data-bs-target", "#" + triggerId);
-		template.querySelector(".accordion-title-pre").innerHTML = title;
+		template.querySelector(".accordion-title-timestamp").innerHTML = timestamp;
+		template.querySelector(".accordion-title-pool").innerHTML = query.poolName;
 		template.querySelector(".accordion-title-stacktrace").innerText = query.stackTrace[0];
 		template.querySelector(".accordion-title-sql").innerHTML = query.sql;
 
