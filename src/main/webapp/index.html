@@ -38,6 +38,7 @@
 	<div class="p-2">
 		<nav>
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
+				<!-- Tab buttons start -->
 				<button class="nav-link active" id="nav-ticker-tab"
 					data-bs-toggle="tab" data-bs-target="#nav-ticker" type="button">Live</button>
 				<button class="nav-link" id="nav-by-frame-tab" data-bs-toggle="tab"
@@ -46,12 +47,16 @@
 				<button class="nav-link" id="nav-by-sql-tab" data-bs-toggle="tab"
 					data-bs-target="#nav-by-sql" type="button">Group by SQL</button>
 				<div class="px-5"></div>
+				<!-- Tab buttons end -->
+				<!-- Remove actions start -->
 				<button id="button-listener-toggle" type="button"
 					class="btn btn-primary">Toggle Listener</button>
 				<div class="px-1"></div>
 				<button id="button-listener-clear" type="button"
 					class="btn btn-primary">Clear Listener</button>
 				<div class="px-1"></div>
+				<!-- Remote actions end -->
+				<!-- Status values start -->
 				<div id="listener-status" class="btn btn-secondary">
 					Listener state:
 					<div class="d-inline">Unknown</div>
@@ -61,12 +66,15 @@
 					Total Queries:
 					<div id="listener-total-queries" class="d-inline">Unknown</div>
 				</div>
+				<!-- Status values end -->
 			</div>
 		</nav>
 		<div class="tab-content">
+			<!-- Tab Content for Live Ticker -->
 			<div class="tab-pane fade show active" id="nav-ticker">
 				<div class="accordion" id="ticker"></div>
 			</div>
+			<!-- Tab Content for Stackframe Group -->
 			<div class="tab-pane fade" id="nav-by-frame">
 				<table class="group-by-table" id="table-by-stackframe">
 					<thead>
@@ -81,6 +89,7 @@
 					<tbody></tbody>
 				</table>
 			</div>
+			<!-- Tab Content for SQL Group -->
 			<div class="tab-pane fade" id="nav-by-sql">
 				<table class="group-by-table" id="table-by-sql">
 					<thead>
@@ -99,6 +108,7 @@
 	</div>
 
 	<div class="visually-hidden">
+		<!-- Template for the live ticker -->
 		<div id="accordion-template" class="accordion-item">
 			<h2 class="accordion-header">
 				<button class="accordion-button collapsed p-1 overflow-hidden"
