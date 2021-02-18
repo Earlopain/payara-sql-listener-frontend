@@ -22,6 +22,7 @@ export class Ticker {
 		const triggerId = "accordion_" + this.counter++;
 
 		const template = this.template.cloneNode(true);
+		template.removeAttribute("id");
 
 		const button = template.querySelector(".accordion-button");
 		button.setAttribute("data-bs-target", "#" + triggerId);
