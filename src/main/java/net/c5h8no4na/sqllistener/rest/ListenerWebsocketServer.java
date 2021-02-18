@@ -1,11 +1,10 @@
 package net.c5h8no4na.sqllistener.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -15,13 +14,12 @@ import javax.websocket.server.ServerEndpoint;
 import net.c5h8no4na.sqllistener.GlassfishSQLTracer;
 import net.c5h8no4na.sqllistener.SingleSQLQuery;
 
-@ApplicationScoped
 @ServerEndpoint("/websocket")
 public class ListenerWebsocketServer {
 
 	private static final Logger LOG = Logger.getLogger(ListenerWebsocketServer.class.getName());
 
-	List<Session> sessions = new ArrayList<>();
+	private static final List<Session> sessions = new CopyOnWriteArrayList<>();
 
 	@OnOpen
 	public void onOpen(Session session) {
@@ -58,7 +56,7 @@ public class ListenerWebsocketServer {
 			WebSocketOutgoing.create(StatusReportType.LISTENER_CLEARED).sendToAll(sessions);
 			break;
 		default:
-			throw new IllegalArgumentException("Unknown message " + message);
+			LOG.info("Unhandled command: " + command.get());
 		}
 	}
 
