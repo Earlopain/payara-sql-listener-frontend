@@ -16,9 +16,10 @@ class WebsocketHandler {
 			this.updateListenerStatus(message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.addToTicker(json.message);
+		} else if (json.type === "SQL_ENTRY_LIST") {
+			this.fillTickerWithInitialData(json.message);
 		} else {
-			let messageArea = document.getElementById("messages");
-			messageArea.value += event.data + "\r\n";
+			console.log("Unhandled type: " + json.type)
 		}
 	}
 
@@ -41,6 +42,14 @@ class WebsocketHandler {
 				this.statusDiv.innerText = "Listener is inactive";
 				this.statusDiv.className = "btn btn-warning";
 				break;
+		}
+	}
+
+	fillTickerWithInitialData(queryArray) {
+		console.log(queryArray);
+		const addToTicker = queryArray.sort((a, b) => a.timestamp < b.timestamp).slice(0, 10).reverse();
+		for (const query of addToTicker) {
+			this.addToTicker(query);
 		}
 	}
 
