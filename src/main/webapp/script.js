@@ -7,6 +7,7 @@ class WebsocketHandler {
 		this.ws.addEventListener("message", event => { this.handleIncoming(event) });
 		this.toast = new bootstrap.Toast(document.querySelector('.toast'));
 		this.statusDiv = document.getElementById("listener-status");
+		this.queryCountDiv = document.getElementById("listener-total-queries");
 		this.ticker = new Ticker();
 		this.queryStore = new QueryStore();
 
@@ -27,9 +28,11 @@ class WebsocketHandler {
 		} else if (json.type === "SQL_ENTRY") {
 			this.ticker.add(json.message);
 			this.queryStore.add(json.message);
+			this.updateQueryCount();
 		} else if (json.type === "SQL_ENTRY_LIST") {
 			this.ticker.fillWithInitialData(json.message);
 			this.queryStore.addAll(json.message);
+			this.updateQueryCount();
 		} else {
 			console.log("Unhandled type: " + json.type)
 		}
@@ -48,16 +51,22 @@ class WebsocketHandler {
 		this.sendMessage('clear_listener');
 		this.ticker.clear();
 		this.queryStore.clear();
+		this.updateQueryCount();
+	}
+
+	updateQueryCount() {
+		this.queryCountDiv.innerText = this.queryStore.getCount();
 	}
 
 	updateListenerStatus(message) {
+		const e = this.statusDiv.querySelector("div");
 		switch (message) {
 			case "LISTENER_ACTIVATED":
-				this.statusDiv.innerText = "Listener is running";
+				e.innerText = "Running";
 				this.statusDiv.className = "btn btn-success";
 				break;
 			case "LISTENER_DEACTIVATED":
-				this.statusDiv.innerText = "Listener is inactive";
+				e.innerText = "Stopped";
 				this.statusDiv.className = "btn btn-warning";
 				break;
 		}
