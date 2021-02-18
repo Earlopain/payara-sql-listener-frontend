@@ -15,7 +15,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
 	crossorigin="anonymous"></script>
-<script type="text/javascript" src="script.js"></script>
+<script type="module" src="script.js"></script>
 </head>
 
 <body>
@@ -39,12 +39,11 @@
 				<button class="nav-link active" id="nav-ticker-tab"
 					data-bs-toggle="tab" data-bs-target="#nav-ticker" type="button">Live</button>
 				<div class="px-5"></div>
-				<button type="button" class="btn btn-primary"
-					onclick="handle.sendMessage('toggle_listener')">Toggle
-					Listener</button>
+				<button id="button-listener-toggle" type="button"
+					class="btn btn-primary">Toggle Listener</button>
 				<div class="px-1"></div>
-				<button type="button" class="btn btn-primary"
-					onclick="handle.clear()">Clear Listener</button>
+				<button id="button-listener-clear" type="button"
+					class="btn btn-primary">Clear Listener</button>
 				<div class="px-1"></div>
 				<div id="listener-status" class="btn btn-secondary">Unknown
 					listener State</div>
