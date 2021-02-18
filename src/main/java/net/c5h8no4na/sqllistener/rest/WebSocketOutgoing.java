@@ -1,12 +1,21 @@
 package net.c5h8no4na.sqllistener.rest;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.websocket.Session;
+
+import com.google.gson.Gson;
 
 import net.c5h8no4na.sqllistener.SingleSQLQuery;
 
 public class WebSocketOutgoing {
 	private Type type;
 	private Object message;
+
+	private static final Gson gson = new Gson();
+
+	private WebSocketOutgoing() {}
 
 	public static WebSocketOutgoing create(SingleSQLQuery query) {
 		WebSocketOutgoing a = new WebSocketOutgoing();
@@ -33,7 +42,7 @@ public class WebSocketOutgoing {
 		return type;
 	}
 
-	public void setType(Type type) {
+	private void setType(Type type) {
 		this.type = type;
 	}
 
@@ -41,8 +50,22 @@ public class WebSocketOutgoing {
 		return message;
 	}
 
-	public void setMessage(Object message) {
+	private void setMessage(Object message) {
 		this.message = message;
+	}
+
+	public void send(Session session) {
+		try {
+			session.getBasicRemote().sendText(gson.toJson(this));
+		} catch (IOException e) {
+			// Something went wrong sending to a client, we can just ignore it
+		}
+	}
+
+	public void sendToAll(List<Session> sessions) {
+		for (Session session : sessions) {
+			send(session);
+		}
 	}
 }
 
