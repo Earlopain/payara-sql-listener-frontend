@@ -7,3 +7,16 @@
 	min-width: var(--custom-width) !important;
 	max-width: var(--custom-width) !important;
 }
+
+.dataTables_wrapper {
+	display: inline-block;
+	width: stretch;
+	width: -moz-available;
+	width: -webkit-fill-available;
+}
+
+.dataTables_length, .dataTables_filter {
+	display: table-cell !important;
+	float: none !important;
+	padding-right: 1em;
+}

@@ -4,8 +4,8 @@ export class QueryStore {
 		this.byFirstTraceFrame = {};
 		this.totalCount = 0;
 
-		this.tableByFirstTraceFrame = $("#table-by-stackframe").DataTable({ autoWidth: false });
-		this.tableBySQL = $("#table-by-sql").DataTable({ autoWidth: false });
+		this.tableByFirstTraceFrame = $("#table-by-stackframe").DataTable({ autoWidth: false , dom: '<""lf>t<"d-flex"pi>'});
+		this.tableBySQL = $("#table-by-sql").DataTable({ autoWidth: false, dom: '<""lf>t<"d-flex"pi>'});
 	}
 
 	clear() {
