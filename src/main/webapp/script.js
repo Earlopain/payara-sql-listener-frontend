@@ -5,7 +5,6 @@ class WebsocketHandler {
 	constructor() {
 		this.ws = new WebSocket("ws://server.lan:8080/sql-listener-rest-0.0.1-SNAPSHOT/websocket");
 		this.ws.addEventListener("message", event => { this.handleIncoming(event) });
-		this.toast = new bootstrap.Toast(document.querySelector('.toast'));
 		this.statusDiv = document.getElementById("listener-status");
 		this.queryCountDiv = document.getElementById("listener-total-queries");
 		this.ticker = new Ticker();
@@ -23,7 +22,6 @@ class WebsocketHandler {
 		const json = JSON.parse(event.data);
 		if (json.type === "STATUSREPORT") {
 			const message = json.message;
-			this.createToast(message);
 			this.updateListenerStatus(message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.ticker.add(json.message);
@@ -40,11 +38,6 @@ class WebsocketHandler {
 
 	sendMessage(message) {
 		this.ws.send(message);
-	}
-
-	createToast(message) {
-		this.toast._element.querySelector(".toast-body").innerText = message;
-		this.toast.show();
 	}
 
 	clear() {
