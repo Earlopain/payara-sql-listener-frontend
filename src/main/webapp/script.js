@@ -3,7 +3,8 @@ import { Ticker } from "./Ticker.js";
 
 class WebsocketHandler {
 	constructor() {
-		this.ws = new WebSocket("ws://server.lan:8080/sql-listener-rest-0.0.1-SNAPSHOT/websocket");
+		//this.ws = new WebSocket("ws://server.lan:8080/sql-listener-rest-0.0.1-SNAPSHOT/websocket");
+		this.ws = new WebSocket("ws://" + window.location.host + window.location.pathname + "websocket");
 		this.ws.addEventListener("message", event => { this.handleIncoming(event) });
 		this.statusDiv = document.getElementById("listener-status");
 		this.queryCountDiv = document.getElementById("listener-total-queries");
