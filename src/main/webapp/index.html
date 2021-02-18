@@ -38,6 +38,17 @@
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
 				<button class="nav-link active" id="nav-ticker-tab"
 					data-bs-toggle="tab" data-bs-target="#nav-ticker" type="button">Live</button>
+				<div class="px-5"></div>
+				<button type="button" class="btn btn-primary"
+					onclick="handle.sendMessage('toggle_listener')">Toggle
+					Listener</button>
+				<div class="px-1"></div>
+				<button type="button" class="btn btn-primary"
+					onclick="handle.sendMessage('clear_listener')">Clear
+					Listener</button>
+				<div class="px-1"></div>
+				<div id="listener-status" class="btn btn-secondary">Unknown
+					listener State</div>
 			</div>
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
@@ -57,13 +68,6 @@
 				<pre class="accordion-body"></pre>
 			</div>
 		</div>
-	</div>
-
-	<h1>Hello Websockets!</h1>
-	<button onclick="handle.sendMessage('toggle_listener')">toggle</button>
-	<button onclick="handle.sendMessage('clear_listener')">clear</button>
-	<div>
-		<textarea id="messages" cols="60" rows="10"></textarea>
 	</div>
 </body>
 

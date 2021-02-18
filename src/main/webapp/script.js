@@ -5,6 +5,7 @@ class WebsocketHandler {
 		this.toast = new bootstrap.Toast(document.querySelector('.toast'));
 		this.ticker = document.getElementById("ticker");
 		this.tickerCounter = 0;
+		this.statusDiv = document.getElementById("listener-status");
 	}
 
 	handleIncoming(event) {
@@ -12,6 +13,7 @@ class WebsocketHandler {
 		if (json.type === "STATUSREPORT") {
 			const message = json.message;
 			this.createToast(message);
+			this.updateListenerStatus(message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.addToTicker(json.message);
 		} else {
@@ -27,6 +29,19 @@ class WebsocketHandler {
 	createToast(message) {
 		this.toast._element.querySelector(".toast-body").innerText = message;
 		this.toast.show();
+	}
+
+	updateListenerStatus(message) {
+		switch (message) {
+			case "LISTENER_ACTIVATED":
+				this.statusDiv.innerText = "Listener is running";
+				this.statusDiv.className = "btn btn-success";
+				break;
+			case "LISTENER_DEACTIVATED":
+				this.statusDiv.innerText = "Listener is inactive";
+				this.statusDiv.className = "btn btn-warning";
+				break;
+		}
 	}
 
 	addToTicker(query) {
