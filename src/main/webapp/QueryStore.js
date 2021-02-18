@@ -4,8 +4,8 @@ export class QueryStore {
 		this.byFirstTraceFrame = {};
 		this.totalCount = 0;
 
-		this.tableByFirstTraceFrame = $("#table-by-stackframe").DataTable();
-		this.tableBySQL = $("#table-by-sql").DataTable();
+		this.tableByFirstTraceFrame = $("#table-by-stackframe").DataTable({ autoWidth: false });
+		this.tableBySQL = $("#table-by-sql").DataTable({ autoWidth: false });
 	}
 
 	clear() {
@@ -32,12 +32,20 @@ export class QueryStore {
 		if (tracker[key] === undefined) {
 			tracker[key] = {
 				count: 0,
-				entries: [],
-				row: table.row.add([0, key])
+				totalExecutionTime: 0,
+				maxExecutionTime: 0,
+				row: table.row.add([0, 0, 0, 0, key])
 			}
 		}
-		tracker[key].entries.push(query);
-		tracker[key].row.data([++tracker[key].count, key]).draw(false);
+		const value = tracker[key];
+		value.count++;
+		const totalExecutionTime = value.totalExecutionTime += query.executionTime;
+		const averageExecutionTime = (totalExecutionTime / value.count).toFixed(2);
+		if (query.executionTime > value.maxExecutionTime) {
+			value.maxExecutionTime = query.executionTime;
+		}
+
+		tracker[key].row.data([value.count, totalExecutionTime, averageExecutionTime, value.maxExecutionTime, key]).draw(false);
 	}
 
 	getCount() {

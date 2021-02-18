@@ -1,0 +1,9 @@
+:root {
+	--custom-width: 4em;
+}
+
+.group-by-table tr > th:nth-child(-n + 4), .group-by-table tr > td:nth-child(-n + 4) {
+	width: var(--custom-width) !important;
+	min-width: var(--custom-width) !important;
+	max-width: var(--custom-width) !important;
+}
