@@ -4,9 +4,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum WebSocketIncomingCommand {
-	ACTIVATE,
-	DEACTIVATE,
-	CLEAR;
+	TOGGLE_LISTENER,
+	CLEAR_LISTENER;
 
 	public static Optional<WebSocketIncomingCommand> fromString(String input) {
 		return Stream.of(WebSocketIncomingCommand.values()).filter(e -> e.name().equalsIgnoreCase(input)).findFirst();

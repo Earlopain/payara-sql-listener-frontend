@@ -53,15 +53,11 @@ public class ListenerWebsocketServer {
 			return;
 		}
 		switch (command.get()) {
-		case ACTIVATE:
-			GlassfishSQLTracer.activate();
-			sendToAll(StatusReportType.LISTENER_ACTIVATED);
+		case TOGGLE_LISTENER:
+			GlassfishSQLTracer.toggle();
+			sendToAll(getListenerStatus());
 			break;
-		case DEACTIVATE:
-			GlassfishSQLTracer.deactivate();
-			sendToAll(StatusReportType.LISTENER_DEACTIVATED);
-			break;
-		case CLEAR:
+		case CLEAR_LISTENER:
 			GlassfishSQLTracer.clear();
 			sendToAll(StatusReportType.LISTENER_CLEARED);
 			break;
@@ -81,6 +77,14 @@ public class ListenerWebsocketServer {
 	private void sendToAll(StatusReportType status) {
 		for (Session session : sessions) {
 			send(session, WebSocketOutgoing.create(status));
+		}
+	}
+
+	private StatusReportType getListenerStatus() {
+		if (GlassfishSQLTracer.isActive()) {
+			return StatusReportType.LISTENER_ACTIVATED;
+		} else {
+			return StatusReportType.LISTENER_DEACTIVATED;
 		}
 	}
 }
