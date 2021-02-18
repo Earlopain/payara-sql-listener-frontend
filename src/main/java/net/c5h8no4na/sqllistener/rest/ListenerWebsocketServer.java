@@ -28,11 +28,11 @@ public class ListenerWebsocketServer {
 		sessions.add(session);
 		List<SingleSQLQuery> initialEntries = GlassfishSQLTracer.getAll();
 		WebSocketOutgoing.create(initialEntries).send(session);
+		WebSocketOutgoing.create(getListenerStatus()).send(session);
 
 		GlassfishSQLTracer.addListener(session.getId(), query -> {
 			WebSocketOutgoing.create(query).send(session);
 		});
-
 	}
 
 	@OnClose
