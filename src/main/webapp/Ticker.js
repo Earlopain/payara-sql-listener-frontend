@@ -3,6 +3,7 @@ export class Ticker {
 	constructor() {
 		this.template = document.getElementById("accordion-template");
 		this.tickerElement = document.getElementById("ticker");
+		this.counter = 0;
 	}
 
 	clear() {
@@ -18,7 +19,7 @@ export class Ticker {
 
 	add(query) {
 		const timestamp = new Date(query.timestamp).toISOString().slice(0, 19);
-		const triggerId = "accordion_" + this.tickerCounter++;
+		const triggerId = "accordion_" + this.counter++;
 
 		const template = this.template.cloneNode(true);
 
