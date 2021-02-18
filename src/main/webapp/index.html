@@ -22,7 +22,7 @@
 
 <body>
 	<div class="p-2">
-		<nav>
+		<nav class="d-flex">
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
 				<!-- Tab buttons start -->
 				<button class="nav-link active" id="nav-ticker-tab"
@@ -32,8 +32,9 @@
 					Stackframe</button>
 				<button class="nav-link" id="nav-by-sql-tab" data-bs-toggle="tab"
 					data-bs-target="#nav-by-sql" type="button">Group by SQL</button>
-				<div class="px-5"></div>
 				<!-- Tab buttons end -->
+			</div>
+			<div class="nav px-5">
 				<!-- Remove actions start -->
 				<button id="button-listener-toggle" type="button"
 					class="btn btn-primary">Toggle Listener</button>
@@ -43,12 +44,12 @@
 				<div class="px-1"></div>
 				<!-- Remote actions end -->
 				<!-- Status values start -->
-				<div id="listener-status" class="btn btn-secondary">
+				<div id="listener-status" class="btn btn-dark">
 					Listener state:
 					<div class="d-inline">Unknown</div>
 				</div>
 				<div class="px-1"></div>
-				<div class="btn btn-light">
+				<div class="btn btn-secondary">
 					Total Queries:
 					<div id="listener-total-queries" class="d-inline">Unknown</div>
 				</div>
