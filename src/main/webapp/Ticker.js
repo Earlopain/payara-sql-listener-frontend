@@ -29,12 +29,12 @@ export class Ticker {
 		template.querySelector(".accordion-title-timestamp").innerHTML = timestamp;
 		template.querySelector(".accordion-title-pool").innerHTML = query.poolName;
 		template.querySelector(".accordion-title-stacktrace").innerText = query.stackTrace[0];
-		template.querySelector(".accordion-title-sql").innerHTML = query.sql;
+		template.querySelector(".accordion-title-sql").innerHTML = query.sqlNoQuestionmarks;
 
 		const collapse = template.querySelector(".accordion-collapse");
 		collapse.id = triggerId;
 
-		template.querySelector(".sql-content").innerText = query.sql;
+		template.querySelector(".sql-content").innerText = query.sqlNoQuestionmarks;
 		template.querySelector(".stacktrace-content").innerText = query.stackTrace.join("\n");
 
 		this.tickerElement.prepend(template);

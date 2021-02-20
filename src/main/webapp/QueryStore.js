@@ -18,7 +18,7 @@ export class QueryStore {
 
 	add(query) {
 		this.totalCount++;
-		this.addToTracker(this.bySQL, this.tableBySQL, query.sql, query);
+		this.addToTracker(this.bySQL, this.tableBySQL, query.sqlSortable, query);
 		this.addToTracker(this.byFirstTraceFrame, this.tableByFirstTraceFrame, query.stackTrace[0], query);
 	}
 
