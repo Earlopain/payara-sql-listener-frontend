@@ -30,6 +30,11 @@ public class ListenerWebsocketServer {
 		WebSocketOutgoing.create(getListenerStatus()).send(session);
 		WebSocketOutgoing.create(GlassfishSQLTracer.getCurrentQueryCount()).send(session);
 
+		QueryGroupCounter counter = new QueryGroupCounter(GlassfishSQLTracer.getAll());
+
+		WebSocketOutgoing.create(Type.GROUP_BY_STACKFRAME_COUNTER, counter.groupByStrackFrame()).send(session);
+		WebSocketOutgoing.create(Type.GROUP_BY_SQL_COUNTER, counter.groupBySQL()).send(session);
+
 		GlassfishSQLTracer.addListener(session.getId(), query -> {
 			WebSocketOutgoing.create(query).send(session);
 		});

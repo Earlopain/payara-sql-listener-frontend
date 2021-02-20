@@ -36,11 +36,15 @@ class WebsocketHandler {
 			this.updateQueryCount();
 		} else if (json.type === "INITIAL_TICKER_ENTRIES") {
 			this.ticker.fillWithInitialData(json.message);
-		} else if(json.type === "SQL_ENTRY_COUNT") {
+		} else if (json.type === "SQL_ENTRY_COUNT") {
 			this.queryCount = json.message;
 			this.updateQueryCount();
+		} else if (json.type === "GROUP_BY_STACKFRAME_COUNTER") {
+			this.groupByStackFrame.init(json.message);
+		} else if (json.type === "GROUP_BY_SQL_COUNTER") {
+			this.groupBySQL.init(json.message);
 		} else {
-			console.log("Unhandled type: " + json.type)
+			console.log("Unhandled type: " + json.type);
 		}
 	}
 

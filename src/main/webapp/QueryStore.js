@@ -10,6 +10,16 @@ export class QueryStore {
 		this.tracker = {};
 	}
 
+	init(data) {
+		for (const key of Object.keys(data)) {
+			this.tracker[key] = {
+				count: data[key],
+				row: this.table.row.add([data[key], key])
+			}
+		}
+		this.table.draw(false);
+	}
+
 	add(key) {
 		if (this.tracker[key] === undefined) {
 			this.tracker[key] = {
