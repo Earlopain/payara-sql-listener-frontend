@@ -12,8 +12,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import net.c5h8no4na.sqllistener.PreparedStatementData;
 import net.c5h8no4na.sqllistener.GlassfishSQLTracer;
+import net.c5h8no4na.sqllistener.PreparedStatementData;
 
 @ServerEndpoint("/websocket")
 public class ListenerWebsocketServer {
@@ -28,6 +28,7 @@ public class ListenerWebsocketServer {
 		Queue<PreparedStatementData> initialEntries = GlassfishSQLTracer.getRecent();
 		WebSocketOutgoing.create(initialEntries).send(session);
 		WebSocketOutgoing.create(getListenerStatus()).send(session);
+		WebSocketOutgoing.create(GlassfishSQLTracer.getCurrentQueryCount()).send(session);
 
 		GlassfishSQLTracer.addListener(session.getId(), query -> {
 			WebSocketOutgoing.create(query).send(session);

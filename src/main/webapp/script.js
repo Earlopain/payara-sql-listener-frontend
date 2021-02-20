@@ -36,6 +36,9 @@ class WebsocketHandler {
 			this.updateQueryCount();
 		} else if (json.type === "INITIAL_TICKER_ENTRIES") {
 			this.ticker.fillWithInitialData(json.message);
+		} else if(json.type === "SQL_ENTRY_COUNT") {
+			this.queryCount = json.message;
+			this.updateQueryCount();
 		} else {
 			console.log("Unhandled type: " + json.type)
 		}

@@ -32,6 +32,13 @@ public class WebSocketOutgoing {
 		return a;
 	}
 
+	public static WebSocketOutgoing create(Integer count) {
+		WebSocketOutgoing a = new WebSocketOutgoing();
+		a.setType(Type.SQL_ENTRY_COUNT);
+		a.setMessage(count);
+		return a;
+	}
+
 	public static WebSocketOutgoing create(StatusReportType command) {
 		WebSocketOutgoing a = new WebSocketOutgoing();
 		a.setType(Type.STATUSREPORT);
@@ -72,6 +79,7 @@ public class WebSocketOutgoing {
 
 enum Type {
 	SQL_ENTRY,
+	SQL_ENTRY_COUNT,
 	INITIAL_TICKER_ENTRIES,
 	STATUSREPORT
 }
