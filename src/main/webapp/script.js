@@ -28,10 +28,8 @@ class WebsocketHandler {
 			this.ticker.add(json.message);
 			this.queryStore.add(json.message);
 			this.updateQueryCount();
-		} else if (json.type === "SQL_ENTRY_LIST") {
+		} else if (json.type === "INITIAL_TICKER_ENTRIES") {
 			this.ticker.fillWithInitialData(json.message);
-			this.queryStore.addAll(json.message);
-			this.updateQueryCount();
 		} else {
 			console.log("Unhandled type: " + json.type)
 		}

@@ -11,8 +11,7 @@ export class Ticker {
 	}
 
 	fillWithInitialData(queryArray) {
-		const addToTicker = queryArray.sort((a, b) => a.timestamp < b.timestamp).slice(0, 10).reverse();
-		for (const query of addToTicker) {
+		for (const query of queryArray) {
 			this.add(query);
 		}
 	}

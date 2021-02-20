@@ -2,12 +2,13 @@ package net.c5h8no4na.sqllistener.rest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Queue;
 
 import javax.websocket.Session;
 
 import com.google.gson.Gson;
 
-import net.c5h8no4na.sqllistener.SingleSQLQuery;
+import net.c5h8no4na.sqllistener.PreparedStatementData;
 
 public class WebSocketOutgoing {
 	private Type type;
@@ -17,16 +18,16 @@ public class WebSocketOutgoing {
 
 	private WebSocketOutgoing() {}
 
-	public static WebSocketOutgoing create(SingleSQLQuery query) {
+	public static WebSocketOutgoing create(PreparedStatementData query) {
 		WebSocketOutgoing a = new WebSocketOutgoing();
 		a.setType(Type.SQL_ENTRY);
 		a.setMessage(query);
 		return a;
 	}
 
-	public static WebSocketOutgoing create(List<SingleSQLQuery> queries) {
+	public static WebSocketOutgoing create(Queue<PreparedStatementData> queries) {
 		WebSocketOutgoing a = new WebSocketOutgoing();
-		a.setType(Type.SQL_ENTRY_LIST);
+		a.setType(Type.INITIAL_TICKER_ENTRIES);
 		a.setMessage(queries);
 		return a;
 	}
@@ -71,7 +72,7 @@ public class WebSocketOutgoing {
 
 enum Type {
 	SQL_ENTRY,
-	SQL_ENTRY_LIST,
+	INITIAL_TICKER_ENTRIES,
 	STATUSREPORT
 }
 

@@ -2,6 +2,7 @@ package net.c5h8no4na.sqllistener.rest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
@@ -11,8 +12,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import net.c5h8no4na.sqllistener.PreparedStatementData;
 import net.c5h8no4na.sqllistener.GlassfishSQLTracer;
-import net.c5h8no4na.sqllistener.SingleSQLQuery;
 
 @ServerEndpoint("/websocket")
 public class ListenerWebsocketServer {
@@ -24,7 +25,7 @@ public class ListenerWebsocketServer {
 	@OnOpen
 	public void onOpen(Session session) {
 		sessions.add(session);
-		List<SingleSQLQuery> initialEntries = GlassfishSQLTracer.getAll();
+		Queue<PreparedStatementData> initialEntries = GlassfishSQLTracer.getRecent();
 		WebSocketOutgoing.create(initialEntries).send(session);
 		WebSocketOutgoing.create(getListenerStatus()).send(session);
 
