@@ -1,6 +1,10 @@
 export class QueryStore {
 	constructor(tableId) {
-		const tableOptions = { autoWidth: false, dom: '<""lf>t<"d-flex"pi>' };
+		const tableOptions = {
+			autoWidth: false,
+			dom: '<""lf>t<"d-flex"pi>',
+			order: [[0, "desc"]]
+		};
 		this.table = $("#" + tableId).DataTable(tableOptions);
 		this.tracker = {};
 	}
