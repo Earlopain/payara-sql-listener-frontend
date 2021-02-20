@@ -28,7 +28,7 @@ table.dataTable tr td:last-child {
 	background-color: var(--background-color) !important;
 }
 
-.group-by-table tr > th:nth-child(-n + 4), .group-by-table tr > td:nth-child(-n + 4) {
+.group-by-table tr > th:first-child, .group-by-table tr > td:first-child {
 	width: var(--custom-width) !important;
 	min-width: var(--custom-width) !important;
 	max-width: var(--custom-width) !important;

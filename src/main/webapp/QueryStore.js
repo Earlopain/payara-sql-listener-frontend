@@ -32,20 +32,13 @@ export class QueryStore {
 		if (tracker[key] === undefined) {
 			tracker[key] = {
 				count: 0,
-				totalExecutionTime: 0,
-				maxExecutionTime: 0,
-				row: table.row.add([0, 0, 0, 0, key])
+				row: table.row.add([0, key])
 			}
 		}
 		const value = tracker[key];
 		value.count++;
-		const totalExecutionTime = value.totalExecutionTime += query.executionTime;
-		const averageExecutionTime = (totalExecutionTime / value.count).toFixed(2);
-		if (query.executionTime > value.maxExecutionTime) {
-			value.maxExecutionTime = query.executionTime;
-		}
 
-		tracker[key].row.data([value.count, totalExecutionTime, averageExecutionTime, value.maxExecutionTime, key]).draw(false);
+		tracker[key].row.data([value.count, key]).draw(false);
 	}
 
 	getCount() {
