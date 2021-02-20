@@ -3,14 +3,13 @@
 	--background-color: #f8f5f5;
 }
 
-#ticker .accordion-item:nth-child(odd) {
-	background-color:  var(--background-color) !important;
+#ticker > .accordion-item:nth-child(odd) {
+	background-color:  var(--background-color);
 }
 
 table.dataTable tbody th, table.dataTable tbody td {
     padding: 0.1em;
 }
-
 
 table.dataTable tr:nth-child(n + 2) td {
 	border-top: 1px solid #dddddd;
@@ -24,25 +23,20 @@ table.dataTable tr td:last-child {
 	border-right: 1px solid #000000;
 }
 
-.even {
-	background-color: var(--background-color) !important;
+.group-by-table .odd {
+	background-color: var(--background-color);
 }
 
 .group-by-table tr > th:first-child, .group-by-table tr > td:first-child {
-	width: var(--custom-width) !important;
-	min-width: var(--custom-width) !important;
-	max-width: var(--custom-width) !important;
+	width: var(--custom-width);
+	min-width: var(--custom-width);
+	max-width: var(--custom-width);
 }
 
-.dataTables_wrapper {
-	display: inline-block;
-	width: stretch;
-	width: -moz-available;
-	width: -webkit-fill-available;
-}
 
-.dataTables_length, .dataTables_filter {
-	display: table-cell !important;
-	float: none !important;
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
+	display: table-cell;
+	float: none;
 	padding-right: 1em;
 }
