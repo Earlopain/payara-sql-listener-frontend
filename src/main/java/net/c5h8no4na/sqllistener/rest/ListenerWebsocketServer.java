@@ -2,7 +2,6 @@ package net.c5h8no4na.sqllistener.rest;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
@@ -13,7 +12,6 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import net.c5h8no4na.sqllistener.GlassfishSQLTracer;
-import net.c5h8no4na.sqllistener.PreparedStatementData;
 
 @ServerEndpoint("/websocket")
 public class ListenerWebsocketServer {
@@ -25,15 +23,16 @@ public class ListenerWebsocketServer {
 	@OnOpen
 	public void onOpen(Session session) {
 		sessions.add(session);
-		Queue<PreparedStatementData> initialEntries = GlassfishSQLTracer.getRecent();
-		WebSocketOutgoing.create(initialEntries).send(session);
-		WebSocketOutgoing.create(getListenerStatus()).send(session);
-		WebSocketOutgoing.create(GlassfishSQLTracer.getCurrentQueryCount()).send(session);
 
 		QueryGroupCounter counter = new QueryGroupCounter(GlassfishSQLTracer.getAll());
+		InitialData data = new InitialData();
+		data.setTickerEntries(GlassfishSQLTracer.getRecent());
+		data.setCurrentQueryCount(GlassfishSQLTracer.getCurrentQueryCount());
+		data.setGroupByStackFrame(counter.groupByStrackFrame());
+		data.setGroupBySQL(counter.groupBySQL());
+		data.setListenerStatus(getListenerStatus());
 
-		WebSocketOutgoing.create(Type.GROUP_BY_STACKFRAME_COUNTER, counter.groupByStrackFrame()).send(session);
-		WebSocketOutgoing.create(Type.GROUP_BY_SQL_COUNTER, counter.groupBySQL()).send(session);
+		WebSocketOutgoing.create(data).send(session);
 
 		GlassfishSQLTracer.addListener(session.getId(), query -> {
 			WebSocketOutgoing.create(query).send(session);

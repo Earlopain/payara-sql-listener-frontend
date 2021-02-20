@@ -2,8 +2,6 @@ package net.c5h8no4na.sqllistener.rest;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 import javax.websocket.Session;
 
@@ -26,17 +24,10 @@ public class WebSocketOutgoing {
 		return a;
 	}
 
-	public static WebSocketOutgoing create(Queue<PreparedStatementData> queries) {
+	public static WebSocketOutgoing create(InitialData data) {
 		WebSocketOutgoing a = new WebSocketOutgoing();
-		a.setType(Type.INITIAL_TICKER_ENTRIES);
-		a.setMessage(queries);
-		return a;
-	}
-
-	public static WebSocketOutgoing create(Integer count) {
-		WebSocketOutgoing a = new WebSocketOutgoing();
-		a.setType(Type.SQL_ENTRY_COUNT);
-		a.setMessage(count);
+		a.setType(Type.INITIAL_DATA);
+		a.setMessage(data);
 		return a;
 	}
 
@@ -44,13 +35,6 @@ public class WebSocketOutgoing {
 		WebSocketOutgoing a = new WebSocketOutgoing();
 		a.setType(Type.STATUSREPORT);
 		a.setMessage(command);
-		return a;
-	}
-
-	public static WebSocketOutgoing create(Type type, Map<String, Integer> data) {
-		WebSocketOutgoing a = new WebSocketOutgoing();
-		a.setType(type);
-		a.setMessage(data);
 		return a;
 	}
 
@@ -87,10 +71,7 @@ public class WebSocketOutgoing {
 
 enum Type {
 	SQL_ENTRY,
-	SQL_ENTRY_COUNT,
-	INITIAL_TICKER_ENTRIES,
-	GROUP_BY_STACKFRAME_COUNTER,
-	GROUP_BY_SQL_COUNTER,
+	INITIAL_DATA,
 	STATUSREPORT
 }
 

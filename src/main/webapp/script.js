@@ -26,23 +26,18 @@ class WebsocketHandler {
 	handleIncoming(event) {
 		const json = JSON.parse(event.data);
 		if (json.type === "STATUSREPORT") {
-			const message = json.message;
-			this.updateListenerStatus(message);
+			this.updateListenerStatus(json.message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.ticker.add(json.message);
 			this.groupByStackFrame.add(json.message.stackTrace[0]);
 			this.groupBySQL.add(json.message.sqlSortable);
-			this.queryCount++;
-			this.updateQueryCount();
-		} else if (json.type === "INITIAL_TICKER_ENTRIES") {
-			this.ticker.fillWithInitialData(json.message);
-		} else if (json.type === "SQL_ENTRY_COUNT") {
-			this.queryCount = json.message;
-			this.updateQueryCount();
-		} else if (json.type === "GROUP_BY_STACKFRAME_COUNTER") {
-			this.groupByStackFrame.init(json.message);
-		} else if (json.type === "GROUP_BY_SQL_COUNTER") {
-			this.groupBySQL.init(json.message);
+			this.addToQueryCount(1);
+		} else if (json.type === "INITIAL_DATA") {
+			this.ticker.fillWithInitialData(json.message.tickerEntries);
+			this.addToQueryCount(json.message.currentQueryCount);
+			this.updateListenerStatus(json.message.listenerStatus);
+			this.groupByStackFrame.init(json.message.groupByStackFrame);
+			this.groupBySQL.init(json.message.groupBySQL);
 		} else {
 			console.log("Unhandled type: " + json.type);
 		}
@@ -60,7 +55,8 @@ class WebsocketHandler {
 		this.updateQueryCount();
 	}
 
-	updateQueryCount() {
+	addToQueryCount(amount) {
+		this.queryCount += amount;
 		this.queryCountDiv.innerText = this.queryCount;
 	}
 
