@@ -1,47 +1,24 @@
 export class QueryStore {
-	constructor() {
-		this.bySQL = {};
-		this.byFirstTraceFrame = {};
-		this.totalCount = 0;
-
-		this.tableByFirstTraceFrame = $("#table-by-stackframe").DataTable({ autoWidth: false , dom: '<""lf>t<"d-flex"pi>'});
-		this.tableBySQL = $("#table-by-sql").DataTable({ autoWidth: false, dom: '<""lf>t<"d-flex"pi>'});
+	constructor(tableId) {
+		const tableOptions = { autoWidth: false, dom: '<""lf>t<"d-flex"pi>' };
+		this.table = $("#" + tableId).DataTable(tableOptions);
+		this.tracker = {};
 	}
 
 	clear() {
-		this.tableBySQL.clear().draw();
-		this.tableByFirstTraceFrame.clear().draw();
-		this.bySQL = {};
-		this.byFirstTraceFrame = {};
-		this.totalCount = 0;
+		this.table.clear().draw();
+		this.tracker = {};
 	}
 
-	add(query) {
-		this.totalCount++;
-		this.addToTracker(this.bySQL, this.tableBySQL, query.sqlSortable, query);
-		this.addToTracker(this.byFirstTraceFrame, this.tableByFirstTraceFrame, query.stackTrace[0], query);
-	}
-
-	addAll(queryArray) {
-		for (const query of queryArray) {
-			this.add(query);
-		}
-	}
-
-	addToTracker(tracker, table, key, query) {
-		if (tracker[key] === undefined) {
-			tracker[key] = {
+	add(key) {
+		if (this.tracker[key] === undefined) {
+			this.tracker[key] = {
 				count: 0,
-				row: table.row.add([0, key])
+				row: this.table.row.add([0, key])
 			}
 		}
-		const value = tracker[key];
+		const value = this.tracker[key];
 		value.count++;
-
-		tracker[key].row.data([value.count, key]).draw(false);
-	}
-
-	getCount() {
-		return this.totalCount;
+		value.row.data([value.count, key]).draw(false);
 	}
 }

@@ -9,7 +9,11 @@ class WebsocketHandler {
 		this.statusDiv = document.getElementById("listener-status");
 		this.queryCountDiv = document.getElementById("listener-total-queries");
 		this.ticker = new Ticker();
-		this.queryStore = new QueryStore();
+
+		this.groupByStackFrame = new QueryStore("table-by-stackframe");
+		this.groupBySQL = new QueryStore("table-by-sql");
+
+		this.queryCount = 0;
 
 		document.getElementById("button-listener-toggle").addEventListener("click", () => {
 			this.sendMessage("toggle_listener");
@@ -26,7 +30,9 @@ class WebsocketHandler {
 			this.updateListenerStatus(message);
 		} else if (json.type === "SQL_ENTRY") {
 			this.ticker.add(json.message);
-			this.queryStore.add(json.message);
+			this.groupByStackFrame.add(json.message.stackTrace[0]);
+			this.groupBySQL.add(json.message.sqlSortable);
+			this.queryCount++;
 			this.updateQueryCount();
 		} else if (json.type === "INITIAL_TICKER_ENTRIES") {
 			this.ticker.fillWithInitialData(json.message);
@@ -42,12 +48,13 @@ class WebsocketHandler {
 	clear() {
 		this.sendMessage('clear_listener');
 		this.ticker.clear();
-		this.queryStore.clear();
+		this.groupBySQL.clear();
+		this.groupByStackFrame.clear();
 		this.updateQueryCount();
 	}
 
 	updateQueryCount() {
-		this.queryCountDiv.innerText = this.queryStore.getCount();
+		this.queryCountDiv.innerText = this.queryCount;
 	}
 
 	updateListenerStatus(message) {
