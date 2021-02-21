@@ -1,4 +1,4 @@
-package net.c5h8no4na.sqllistener.rest;
+package net.c5h8no4na.sqllistener.frontend;
 
 public class WebSocketIncomingCommand {
 	private IncomingCommandType type;
