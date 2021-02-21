@@ -1,7 +1,6 @@
 package net.c5h8no4na.sqllistener.rest;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
@@ -11,12 +10,16 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.google.gson.Gson;
+
 import net.c5h8no4na.sqllistener.GlassfishSQLTracer;
 
 @ServerEndpoint("/websocket")
 public class ListenerWebsocketServer {
 
 	private static final Logger LOG = Logger.getLogger(ListenerWebsocketServer.class.getName());
+
+	private static final Gson gson = new Gson();
 
 	private static final List<Session> sessions = new CopyOnWriteArrayList<>();
 
@@ -47,12 +50,12 @@ public class ListenerWebsocketServer {
 
 	@OnMessage
 	public void onMessage(String message) {
-		Optional<WebSocketIncomingCommand> command = WebSocketIncomingCommand.fromString(message);
-		if (command.isEmpty()) {
+		WebSocketIncomingCommand command = gson.fromJson(message, WebSocketIncomingCommand.class);
+		if (command.getType() == null) {
 			LOG.info("Client sent invalid command: " + message);
 			return;
 		}
-		switch (command.get()) {
+		switch (command.getType()) {
 		case TOGGLE_LISTENER:
 			GlassfishSQLTracer.toggle();
 			WebSocketOutgoing.create(getListenerStatus()).sendToAll(sessions);
@@ -62,7 +65,7 @@ public class ListenerWebsocketServer {
 			WebSocketOutgoing.create(StatusReportType.LISTENER_CLEARED).sendToAll(sessions);
 			break;
 		default:
-			LOG.info("Unhandled command: " + command.get());
+			LOG.info("Unhandled command: " + command.getType());
 		}
 	}
 

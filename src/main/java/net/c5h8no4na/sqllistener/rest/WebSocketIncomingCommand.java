@@ -1,13 +1,27 @@
 package net.c5h8no4na.sqllistener.rest;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+public class WebSocketIncomingCommand {
+	private IncomingCommandType type;
+	private String extraData;
 
-public enum WebSocketIncomingCommand {
+	public String getExtraData() {
+		return extraData;
+	}
+
+	public void setExtraData(String extraData) {
+		this.extraData = extraData;
+	}
+
+	public IncomingCommandType getType() {
+		return type;
+	}
+
+	public void setType(IncomingCommandType type) {
+		this.type = type;
+	}
+}
+
+enum IncomingCommandType {
 	TOGGLE_LISTENER,
 	CLEAR_LISTENER;
-
-	public static Optional<WebSocketIncomingCommand> fromString(String input) {
-		return Stream.of(WebSocketIncomingCommand.values()).filter(e -> e.name().equalsIgnoreCase(input)).findFirst();
-	}
 }

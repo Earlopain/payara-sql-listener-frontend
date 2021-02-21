@@ -16,7 +16,7 @@ class WebsocketHandler {
 		this.queryCount = 0;
 
 		document.getElementById("button-listener-toggle").addEventListener("click", () => {
-			this.sendMessage("toggle_listener");
+			this.sendMessage("TOGGLE_LISTENER");
 		});
 		document.getElementById("button-listener-clear").addEventListener("click", () => {
 			this.clear();
@@ -43,12 +43,12 @@ class WebsocketHandler {
 		}
 	}
 
-	sendMessage(message) {
-		this.ws.send(message);
+	sendMessage(type, extra = "") {
+		this.ws.send(JSON.stringify({type: type, extraData: extra}));
 	}
 
 	clear() {
-		this.sendMessage('clear_listener');
+		this.sendMessage("CLEAR_LISTENER");
 		this.ticker.clear();
 		this.groupBySQL.clear();
 		this.groupByStackFrame.clear();
