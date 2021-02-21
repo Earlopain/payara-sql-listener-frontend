@@ -52,7 +52,8 @@ class WebsocketHandler {
 		this.ticker.clear();
 		this.groupBySQL.clear();
 		this.groupByStackFrame.clear();
-		this.updateQueryCount();
+		this.queryCount = 0;
+		this.addToQueryCount(0);
 	}
 
 	addToQueryCount(amount) {
