@@ -18,7 +18,7 @@ class WebsocketHandler {
 			this.sendMessage("GET_DETAILS_BY_SQL", key);
 		});
 
-		this.groupByDetails = new QueryStore("table-by-details", () => {});
+		this.groupByDetails = new QueryStore("table-by-details", () => { });
 
 		this.queryCount = 0;
 
@@ -45,17 +45,18 @@ class WebsocketHandler {
 			this.updateListenerStatus(json.message.listenerStatus);
 			this.groupByStackFrame.init(json.message.groupByStackFrame);
 			this.groupBySQL.init(json.message.groupBySQL);
-		} else if(json.type === "DETAILS_BY_STACKFRAME" || json.type === "DETAILS_BY_SQL") {
+		} else if (json.type === "DETAILS_BY_STACKFRAME" || json.type === "DETAILS_BY_SQL") {
 			this.groupByDetails.clear();
 			this.groupByDetails.init(json.message.entries);
 			this.detailsTableKeyDiv.innerHTML = json.message.key;
+			document.getElementById("nav-by-details-tab").click();
 		} else {
 			console.log("Unhandled type: " + json.type);
 		}
 	}
 
 	sendMessage(type, extra = "") {
-		this.ws.send(JSON.stringify({type: type, extraData: extra}));
+		this.ws.send(JSON.stringify({ type: type, extraData: extra }));
 	}
 
 	clear() {
