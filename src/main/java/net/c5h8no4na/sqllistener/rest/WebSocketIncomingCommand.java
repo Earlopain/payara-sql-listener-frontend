@@ -23,5 +23,7 @@ public class WebSocketIncomingCommand {
 
 enum IncomingCommandType {
 	TOGGLE_LISTENER,
-	CLEAR_LISTENER;
+	CLEAR_LISTENER,
+	GET_DETAILS_BY_STACKFRAME,
+	GET_DETAILS_BY_SQL;
 }

@@ -7,11 +7,18 @@ class WebsocketHandler {
 		this.ws = new WebSocket("ws://" + window.location.host + window.location.pathname + "websocket");
 		this.ws.addEventListener("message", event => { this.handleIncoming(event) });
 		this.statusDiv = document.getElementById("listener-status");
+		this.detailsTableKeyDiv = document.getElementById("details-content");
 		this.queryCountDiv = document.getElementById("listener-total-queries");
 		this.ticker = new Ticker();
 
-		this.groupByStackFrame = new QueryStore("table-by-stackframe");
-		this.groupBySQL = new QueryStore("table-by-sql");
+		this.groupByStackFrame = new QueryStore("table-by-stackframe", key => {
+			this.sendMessage("GET_DETAILS_BY_STACKFRAME", key);
+		});
+		this.groupBySQL = new QueryStore("table-by-sql", key => {
+			this.sendMessage("GET_DETAILS_BY_SQL", key);
+		});
+
+		this.groupByDetails = new QueryStore("table-by-details", () => {});
 
 		this.queryCount = 0;
 
@@ -38,6 +45,10 @@ class WebsocketHandler {
 			this.updateListenerStatus(json.message.listenerStatus);
 			this.groupByStackFrame.init(json.message.groupByStackFrame);
 			this.groupBySQL.init(json.message.groupBySQL);
+		} else if(json.type === "DETAILS_BY_STACKFRAME" || json.type === "DETAILS_BY_SQL") {
+			this.groupByDetails.clear();
+			this.groupByDetails.init(json.message.entries);
+			this.detailsTableKeyDiv.innerHTML = json.message.key;
 		} else {
 			console.log("Unhandled type: " + json.type);
 		}

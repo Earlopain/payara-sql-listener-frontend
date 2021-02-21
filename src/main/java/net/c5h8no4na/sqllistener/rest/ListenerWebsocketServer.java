@@ -49,7 +49,7 @@ public class ListenerWebsocketServer {
 	}
 
 	@OnMessage
-	public void onMessage(String message) {
+	public void onMessage(Session session, String message) {
 		WebSocketIncomingCommand command = gson.fromJson(message, WebSocketIncomingCommand.class);
 		if (command.getType() == null) {
 			LOG.info("Client sent invalid command: " + message);
@@ -63,6 +63,16 @@ public class ListenerWebsocketServer {
 		case CLEAR_LISTENER:
 			GlassfishSQLTracer.clear();
 			WebSocketOutgoing.create(StatusReportType.LISTENER_CLEARED).sendToAll(sessions);
+			break;
+		case GET_DETAILS_BY_STACKFRAME:
+			QueryGroupCounter counter1 = new QueryGroupCounter(GlassfishSQLTracer.getAll());
+			DetailsByKey details1 = new DetailsByKey(command.getExtraData(), counter1.getByStackFrame(command.getExtraData()));
+			WebSocketOutgoing.create(Type.DETAILS_BY_STACKFRAME, details1).send(session);
+			break;
+		case GET_DETAILS_BY_SQL:
+			QueryGroupCounter counter2 = new QueryGroupCounter(GlassfishSQLTracer.getAll());
+			DetailsByKey details2 = new DetailsByKey(command.getExtraData(), counter2.getBySQL(command.getExtraData()));
+			WebSocketOutgoing.create(Type.DETAILS_BY_STACKFRAME, details2).send(session);
 			break;
 		default:
 			LOG.info("Unhandled command: " + command.getType());

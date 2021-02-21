@@ -1,12 +1,18 @@
 export class QueryStore {
-	constructor(tableId) {
+	constructor(tableId, callbackOnClick) {
 		const tableOptions = {
 			autoWidth: false,
 			dom: '<""lf>t<"d-flex"pi>',
 			order: [[0, "desc"]]
 		};
 		this.table = $("#" + tableId).DataTable(tableOptions);
+		this.table.on("click", "tbody tr", event => {
+			if(event.target.cellIndex == 1) {
+				callbackOnClick(event.target.innerHTML);
+			}
+		  });
 		this.tracker = {};
+		this.callbackOnClick = callbackOnClick;
 	}
 
 	clear() {

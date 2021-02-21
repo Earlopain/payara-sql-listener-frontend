@@ -38,6 +38,13 @@ public class WebSocketOutgoing {
 		return a;
 	}
 
+	public static WebSocketOutgoing create(Type t, DetailsByKey details) {
+		WebSocketOutgoing a = new WebSocketOutgoing();
+		a.setType(t);
+		a.setMessage(details);
+		return a;
+	}
+
 	public Type getType() {
 		return type;
 	}
@@ -72,7 +79,9 @@ public class WebSocketOutgoing {
 enum Type {
 	SQL_ENTRY,
 	INITIAL_DATA,
-	STATUSREPORT
+	STATUSREPORT,
+	DETAILS_BY_STACKFRAME,
+	DETAILS_BY_SQL;
 }
 
 enum StatusReportType {

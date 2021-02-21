@@ -44,4 +44,37 @@ public class QueryGroupCounter {
 
 		return result;
 	}
+
+	public Map<String, Integer> getByStackFrame(String firstFrame) {
+		Map<String, Integer> result = new HashMap<>();
+
+		for (SQLInfoStructure sqlInfoStructure : input) {
+			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
+				for (ExecutedSQLInfos query : infos.getInfos()) {
+					if (firstFrame.equals(query.getStackTrace().get(0))) {
+						Integer count = result.computeIfAbsent(infos.getSql(), key -> Integer.valueOf(0));
+						result.put(infos.getSql(), count + 1);
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public Map<String, Integer> getBySQL(String sql) {
+		Map<String, Integer> result = new HashMap<>();
+		for (SQLInfoStructure sqlInfoStructure : input) {
+			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
+				if (sql.equals(infos.getSql())) {
+					for (ExecutedSQLInfos a : infos.getInfos()) {
+						Integer count = result.computeIfAbsent(a.getStackTrace().get(0), key -> Integer.valueOf(0));
+						result.put(a.getStackTrace().get(0), count + 1);
+					}
+				}
+			}
+		}
+
+		return result;
+	}
 }

@@ -33,6 +33,8 @@
 					Stackframe</button>
 				<button class="nav-link" id="nav-by-sql-tab" data-bs-toggle="tab"
 					data-bs-target="#nav-by-sql" type="button">Group by SQL</button>
+				<button class="nav-link" id="nav-by-details-tab"
+					data-bs-toggle="tab" data-bs-target="#nav-details" type="button">Details</button>
 				<!-- Tab buttons end -->
 			</div>
 			<div class="nav px-5">
@@ -81,6 +83,20 @@
 						<tr>
 							<th>Count</th>
 							<th>SQL</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<!-- Tab Content for the Details tab -->
+			<div class="tab-pane fade" id="nav-details">
+				Viewing details for:
+				<div class="d-inline" id="details-content">None</div>
+				<table class="group-by-table" id="table-by-details">
+					<thead>
+						<tr>
+							<th>Count</th>
+							<th>Value</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
