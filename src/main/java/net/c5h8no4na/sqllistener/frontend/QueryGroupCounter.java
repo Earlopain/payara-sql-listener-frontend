@@ -2,9 +2,10 @@ package net.c5h8no4na.sqllistener.frontend;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import net.c5h8no4na.sqllistener.ExecutedSQLInfos;
 import net.c5h8no4na.sqllistener.SQLInfoStructure;
 import net.c5h8no4na.sqllistener.SQLQuery;
 
@@ -21,9 +22,9 @@ public class QueryGroupCounter {
 
 		for (SQLInfoStructure sqlInfoStructure : input) {
 			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
-				for (ExecutedSQLInfos query : infos.getInfos()) {
-					Integer count = result.computeIfAbsent(query.getStackTrace().get(0), key -> Integer.valueOf(0));
-					result.put(query.getStackTrace().get(0), count + 1);
+				for (Entry<List<String>, Integer> stackTraces : infos.getStackTraces().entrySet()) {
+					Integer count = result.computeIfAbsent(stackTraces.getKey().get(0), k -> Integer.valueOf(0));
+					result.put(stackTraces.getKey().get(0), count + stackTraces.getValue());
 				}
 			}
 		}
@@ -37,8 +38,7 @@ public class QueryGroupCounter {
 		for (SQLInfoStructure sqlInfoStructure : input) {
 			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
 				Integer count = result.computeIfAbsent(infos.getSql(), key -> Integer.valueOf(0));
-				result.put(infos.getSql(), count + infos.getInfos().size());
-
+				result.put(infos.getSql(), count + infos.getTotalCount());
 			}
 		}
 
@@ -50,10 +50,10 @@ public class QueryGroupCounter {
 
 		for (SQLInfoStructure sqlInfoStructure : input) {
 			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
-				for (ExecutedSQLInfos query : infos.getInfos()) {
-					if (firstFrame.equals(query.getStackTrace().get(0))) {
+				for (Entry<List<String>, Integer> stackTrace : infos.getStackTraces().entrySet()) {
+					if (firstFrame.equals(stackTrace.getKey().get(0))) {
 						Integer count = result.computeIfAbsent(infos.getSql(), key -> Integer.valueOf(0));
-						result.put(infos.getSql(), count + 1);
+						result.put(infos.getSql(), count + stackTrace.getValue());
 					}
 				}
 			}
@@ -67,9 +67,9 @@ public class QueryGroupCounter {
 		for (SQLInfoStructure sqlInfoStructure : input) {
 			for (SQLQuery infos : sqlInfoStructure.getQueries().values()) {
 				if (sql.equals(infos.getSql())) {
-					for (ExecutedSQLInfos a : infos.getInfos()) {
-						Integer count = result.computeIfAbsent(a.getStackTrace().get(0), key -> Integer.valueOf(0));
-						result.put(a.getStackTrace().get(0), count + 1);
+					for (Entry<List<String>, Integer> stackTrace : infos.getStackTraces().entrySet()) {
+						Integer count = result.computeIfAbsent(stackTrace.getKey().get(0), key -> Integer.valueOf(0));
+						result.put(stackTrace.getKey().get(0), count + stackTrace.getValue());
 					}
 				}
 			}
